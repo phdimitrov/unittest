@@ -55,7 +55,15 @@ android {
 afterEvaluate {
 	assemble.doLast{
 		jacocoTestReport.execute()
-		jacocoTestReport
+
+	}
+
+	test.doLast {
+		jacocoTestReport.execute()
+	}
+
+	testDebugUnitTest.doLast {
+		jacocoTestReport.execute()
 	}
 
 //	assembleRelease.doLast{
