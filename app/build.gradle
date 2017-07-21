@@ -1,4 +1,22 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+
+	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+	def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+	def mainSrc = "${project.projectDir}/src/main/java"
+
+	sourceDirectories = files([mainSrc])
+	classDirectories = files([debugTree])
+	executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+}
 
 android {
 	compileSdkVersion 26
@@ -11,13 +29,28 @@ android {
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
+
+	testOptions {
+		unitTests.all {
+			jacoco {
+				includeNoLocationClasses = true
+			}
+		}
+	}
+
 	buildTypes {
+		debug {
+			testCoverageEnabled true
+		}
+
 		release {
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
 }
+
+build.dependsOn jacocoTestReport
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -28,4 +61,9 @@ dependencies {
 	compile 'com.android.support:design:26.+'
 	compile 'com.android.support.constraint:constraint-layout:1.0.2'
 	testCompile 'junit:junit:4.12'
+
+	// required if you want to use Mockito for unit tests
+	testCompile 'org.mockito:mockito-core:2.8.47'
+//	// required if you want to use Mockito for Android tests
+//	androidTestCompile 'org.mockito:mockito-android:2.7.22'
 }
