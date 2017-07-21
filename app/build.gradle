@@ -50,9 +50,12 @@ android {
 	}
 }
 
-assembleDebug.doLast {
-	copyAARToCommonLibs.execute()
+afterEvaluate {
+	assembleDebug.doLast{
+		jacocoTestReport.execute()
+	}
 }
+
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
