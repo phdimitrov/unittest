@@ -50,7 +50,9 @@ android {
 	}
 }
 
-build.dependsOn jacocoTestReport
+assembleDebug.doLast {
+	copyAARToCommonLibs.execute()
+}
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
