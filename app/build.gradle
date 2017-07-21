@@ -50,19 +50,19 @@ android {
 	}
 }
 
-jacocoTestReport.execute()
-//
-//afterEvaluate {
-//	assembleDebug.doLast{
-//		jacocoTestReport.execute()
-//		jacocoTestReport
-//	}
-//
+//jacocoTestReport.execute()
+
+afterEvaluate {
+	assemble.doLast{
+		jacocoTestReport.execute()
+		jacocoTestReport
+	}
+
 //	assembleRelease.doLast{
 //		jacocoTestReport.execute()
 //		jacocoTestReport
 //	}
-//}
+}
 
 
 dependencies {
