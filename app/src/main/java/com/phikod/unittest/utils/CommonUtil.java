@@ -10,4 +10,8 @@ public class CommonUtil {
     public static int addition(int x, int y) {
         return x + y;
     }
+
+    public static int multiply(int x, int y) {
+        return x * y;
+    }
 }

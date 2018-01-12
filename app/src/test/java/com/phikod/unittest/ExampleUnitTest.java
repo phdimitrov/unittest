@@ -32,4 +32,12 @@ public class ExampleUnitTest {
 
         assertEquals(4, result);
     }
+    @Test
+    public void multiply_isCorrect() throws Exception {
+        System.out.println("multiply_isCorrect");
+        CommonUtil util = new CommonUtil();
+        int result = CommonUtil.multiply(2, 2);
+
+        assertEquals(4, result);
+    }
 }
