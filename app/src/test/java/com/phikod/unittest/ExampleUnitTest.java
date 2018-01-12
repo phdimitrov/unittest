@@ -40,4 +40,13 @@ public class ExampleUnitTest {
 
         assertEquals(4, result);
     }
+
+    @Test
+    public void subtraction_isCorrect() throws Exception {
+        System.out.println("subtraction_isCorrect");
+        CommonUtil util = new CommonUtil();
+        int result = CommonUtil.subtraction(6, 2);
+
+        assertEquals(4, result);
+    }
 }
