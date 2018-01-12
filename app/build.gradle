@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+//apply plugin: 'com.github.gfx.ribbonizer'
 
-
-task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDevFreeGoogleplayDebugUnitTest') {
 
 	reports {
 		xml.enabled = true
@@ -15,16 +15,23 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
 
 	sourceDirectories = files([mainSrc])
 	classDirectories = files([debugTree])
-	executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+	executionData = files("${buildDir}/jacoco/testDevFreeGoogleplayDebugUnitTest.exec")
 }
 
+repositories {
+//	maven { url 'https://maven.fabric.io/public' }
+//	maven { url "http://dl.bintray.com/urbanairship/android" }
+	maven { url "https://jitpack.io" }
+}
+
+
 android {
-	compileSdkVersion 26
-	buildToolsVersion "26.0.0"
+	compileSdkVersion 27
+	buildToolsVersion "26.0.2"
 	defaultConfig {
 		applicationId "com.phikod.unittest"
 		minSdkVersion 16
-		targetSdkVersion 26
+		targetSdkVersion 27
 		versionCode 1
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -48,6 +55,20 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
+
+	flavorDimensions("default")
+
+
+	productFlavors {
+		dev {
+			applicationIdSuffix ".dev"
+			buildConfigField "boolean", "enableCrashlytics", "false"
+		}
+		prod {
+			minSdkVersion 17
+		}
+	}
+
 }
 
 //jacocoTestReport.execute()
@@ -62,9 +83,11 @@ afterEvaluate {
 		jacocoTestReport.execute()
 	}
 
-	testDebugUnitTest.doLast {
-		jacocoTestReport.execute()
-	}
+
+
+//	testDevFreeGoogleplayDebugUnitTest.doLast {
+//		jacocoTestReport.execute()
+//	}
 
 //	assembleRelease.doLast{
 //		jacocoTestReport.execute()
@@ -78,9 +101,12 @@ dependencies {
 	androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	})
-	compile 'com.android.support:appcompat-v7:26.+'
-	compile 'com.android.support:design:26.+'
+	compile 'com.android.support:appcompat-v7:27.0.2'
+	compile 'com.android.support:design:27.0.2'
 	compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+	debugCompile 'com.facebook.stetho:stetho:1.4.2'
+
 	testCompile 'junit:junit:4.12'
 
 	// required if you want to use Mockito for unit tests
@@ -88,3 +114,24 @@ dependencies {
 //	// required if you want to use Mockito for Android tests
 //	androidTestCompile 'org.mockito:mockito-android:2.7.22'
 }
+//
+//ribbonizer {
+//	// "manifest application[android:icon]" is automatically added to the list
+//	//iconNames "@drawable/ic_notification", "@drawable/widget_preview"
+//
+//	builder { variant, iconFile ->
+//		// change ribbon colors by product flavors
+//		if (variant.flavorName == "dev") {
+//			return greenRibbonFilter(variant, iconFile)
+//		} else if (variant.flavorName.contains("dist")) {
+//			return yellowRibbonFilter(variant, iconFile)
+//		} else if (variant.flavorName == "prod") {
+//			return yellowRibbonFilter(variant, iconFile)
+//		} else if (variant.flavorName.contains("beta")) {
+//			return redRibbonFilter(variant, iconFile)
+//		} else {
+//			return greenRibbonFilter(variant, iconFile)
+//		}
+//	}
+//}
+
