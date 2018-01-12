@@ -2,8 +2,6 @@ package com.phikod.unittest;
 
 import android.app.Application;
 
-import com.facebook.stetho.Stetho;
-
 /**
  * @author Philip
  * @since 2017-12-05
@@ -17,9 +15,9 @@ public class TestApplication extends Application {
 
         //Stetho.initializeWithDefaults(this);
 
-        if (BuildConfig.enableCrashlytics) {
-            //initFabric();
-        }
+//        if (BuildConfig.enableCrashlytics) {
+        //initFabric();
+//        }
 
     }
 //
